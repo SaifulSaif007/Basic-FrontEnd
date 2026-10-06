@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Hello, Saiful</title>
+  <script>
+    // Apply theme immediately to prevent flash of wrong theme
+    (function() {
+      const saved = localStorage.getItem("theme");
+      if (saved) {
+        document.documentElement.setAttribute("data-theme", saved);
+      } else if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+        document.documentElement.setAttribute("data-theme", "dark");
+      } else {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
+  <style>
+    :root {
+      --bg: #f6f7f9;
+      --fg: #14181f;
+      --muted: #5b6573;
+      --panel: #ffffff;
+      --line: #dfe3e8;
+      --btn-bg: #eef1f5;
+      --btn-hover: #e2e6eb;
+      --btn-fg: #14181f;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    [data-theme="dark"] {
+      --bg: #12151a;
+      --fg: #eef1f5;
+      --muted: #98a2b0;
+      --panel: #1b2027;
+      --line: #2b323c;
+      --btn-bg: #262c36;
+      --btn-hover: #313945;
+      --btn-fg: #eef1f5;
+      --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --bg: #12151a;
+        --fg: #eef1f5;
+        --muted: #98a2b0;
+        --panel: #1b2027;
+        --line: #2b323c;
+        --btn-bg: #262c36;
+        --btn-hover: #313945;
+        --btn-fg: #eef1f5;
+        --shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+      }
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      transition: background-color 0.25s ease, color 0.25s ease;
+    }
+
+    main { width: 100%; max-width: 420px; }
+
+    .header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+      gap: 16px;
+    }
+
+    h1 {
+      font-size: 2rem;
+      margin: 0;
+    }
+
+    .theme-toggle {
+      background: var(--btn-bg);
+      color: var(--btn-fg);
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
+      transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.15s ease;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle:hover {
+      background: var(--btn-hover);
+      transform: scale(1.05);
+    }
+
+    .theme-toggle:active {
+      transform: scale(0.95);
+    }
+
+    .theme-toggle:focus-visible {
+      outline: 2px solid #3b82f6;
+      outline-offset: 2px;
+    }
+
+    .theme-toggle svg {
+      width: 20px;
+      height: 20px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    section {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 20px 24px;
+      box-shadow: var(--shadow);
+      transition: background-color 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    h2 { font-size: 1rem; margin: 0 0 8px; color: var(--muted); font-weight: 600; }
+
+    #time {
+      font-size: 2.5rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+    }
+
+    #date, #zone { margin: 4px 0 0; color: var(--muted); }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="header">
+      <h1>Hello, Saiful</h1>
+      <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle theme" title="Toggle theme">
+        <!-- Sun icon (shown in dark theme) -->
+        <svg id="sun-icon" viewBox="0 0 24 24" style="display: none;">
+          <circle cx="12" cy="12" r="5"></circle>
+          <line x1="12" y1="1" x2="12" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="23"></line>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+          <line x1="1" y1="12" x2="3" y2="12"></line>
+          <line x1="21" y1="12" x2="23" y2="12"></line>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+        </svg>
+        <!-- Moon icon (shown in light theme) -->
+        <svg id="moon-icon" viewBox="0 0 24 24">
+          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+      </button>
+    </div>
+
+    <section aria-live="off">
+      <h2>Current time</h2>
+      <div id="time">--:--:--</div>
+      <p id="date"></p>
+      <p id="zone"></p>
+    </section>
+  </main>
+
+  <script>
+    // Clock logic
+    const timeEl = document.getElementById("time");
+    const dateEl = document.getElementById("date");
+    const zoneEl = document.getElementById("zone");
+
+    zoneEl.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone;
+
+    function updateClock() {
+      const now = new Date();
+      timeEl.textContent = now.toLocaleTimeString();
+      dateEl.textContent = now.toLocaleDateString(undefined, {
+        weekday: "long", year: "numeric", month: "long", day: "numeric"
+      });
+    }
+
+    updateClock();
+    setInterval(updateClock, 1000);
+
+    // Theme toggle logic
+    const themeToggle = document.getElementById("theme-toggle");
+    const sunIcon = document.getElementById("sun-icon");
+    const moonIcon = document.getElementById("moon-icon");
+
+    function getEffectiveTheme() {
+      return document.documentElement.getAttribute("data-theme") || 
+        (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    }
+
+    function updateToggleIcon(theme) {
+      if (theme === "dark") {
+        sunIcon.style.display = "block";
+        moonIcon.style.display = "none";
+        themeToggle.setAttribute("aria-label", "Switch to light theme");
+        themeToggle.title = "Switch to light theme";
+      } else {
+        sunIcon.style.display = "none";
+        moonIcon.style.display = "block";
+        themeToggle.setAttribute("aria-label", "Switch to dark theme");
+        themeToggle.title = "Switch to dark theme";
+      }
+    }
+
+    updateToggleIcon(getEffectiveTheme());
+
+    themeToggle.addEventListener("click", () => {
+      const current = getEffectiveTheme();
+      const next = current === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+      updateToggleIcon(next);
+    });
+
+    window.matchMedia("(prefers-color-scheme: dark)").addEventListener("change", (e) => {
+      if (!localStorage.getItem("theme")) {
+        const next = e.matches ? "dark" : "light";
+        document.documentElement.setAttribute("data-theme", next);
+        updateToggleIcon(next);
+      }
+    });
+  </script>
+</body>
+</html>
